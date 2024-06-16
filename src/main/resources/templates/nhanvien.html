@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Danh sách Nhân viên</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+<body>
+<h1>Danh sách Nhân viên</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Mã NV</th>
+        <th>Tên NV</th>
+        <th>Phái</th>
+        <th>Nơi Sinh</th>
+        <th>Mã Phòng</th>
+        <th>Lương</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="nhanVien : ${nhanVienPage.content}">
+        <td th:text="${nhanVien.maNV}"></td>
+        <td th:text="${nhanVien.tenNV}"></td>
+        <td>
+            <img th:src="${nhanVien.phai == 'NU' ? '/images/woman.jpg' : '/images/man.jpg'}" alt="Gender Image" style="width: 50px; height: 50px;">
+        </td>
+        <td th:text="${nhanVien.noiSinh}"></td>
+        <td th:text="${nhanVien.maPhong}"></td>
+        <td th:text="${nhanVien.luong}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Phân trang -->
+<div>
+    <ul class="pagination">
+        <li th:if="${nhanVienPage.hasPrevious()}">
+            <a th:href="@{/nhanvien(page=0, size=${nhanVienPage.size})}">&laquo;</a>
+        </li>
+        <li th:each="pageNumber : ${#numbers.sequence(0, nhanVienPage.totalPages - 1)}" th:class="${pageNumber == nhanVienPage.number} ? 'active'">
+            <a th:href="@{/nhanvien(page=${pageNumber}, size=${nhanVienPage.size})}" th:text="${pageNumber + 1}"></a>
+        </li>
+        <li th:if="${nhanVienPage.hasNext()}">
+            <a th:href="@{/nhanvien(page=${nhanVienPage.totalPages - 1}, size=${nhanVienPage.size})}">&raquo;</a>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>
